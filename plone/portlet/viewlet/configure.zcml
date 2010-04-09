@@ -1,0 +1,40 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="plone">
+
+    <five:registerPackage package="." />
+    
+    <genericsetup:registerProfile
+       name="default"
+       title="Viewlet portlet"
+       directory="profiles/default"
+       description="A portlet that displays a viewlet"
+       provides="Products.GenericSetup.interfaces.EXTENSION"
+       />
+       
+     <permission
+       id="plone.portlet.viewlet.AddViewletPortlet"
+       title="plone.portlet.viewlet: Add viewlet portlet"
+       />
+ 
+     <!-- Register the portlet -->
+     <plone:portlet
+         name="plone.portlet.viewlet.ViewletPortlet"
+         interface=".portlet.IViewletPortlet"
+         assignment=".portlet.Assignment"
+         view_permission="zope2.View"
+         edit_permission="plone.portlet.viewlet.AddViewletPortlet"
+         renderer=".portlet.Renderer"
+         addview=".portlet.AddForm"
+         editview=".portlet.EditForm"
+         />
+
+    <utility
+        name="plone.portlet.viewlet.vocab"
+        component=".portlet.vocab"
+        provides="zope.schema.interfaces.IVocabularyFactory"
+        />
+</configure>
