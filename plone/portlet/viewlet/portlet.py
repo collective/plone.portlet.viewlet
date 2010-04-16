@@ -102,7 +102,7 @@ class EditForm(base.EditForm):
     This is registered with configure.zcml. The form_fields variable tells
     zope.formlib which fields to display.
     """
-    form.Fields(IViewletPortlet)
+    form_fields = form.Fields(IViewletPortlet)
 
     label = _(u"Edit Viewlet Portlet")
     description = _(u"This portlet displays a viewlet.")
