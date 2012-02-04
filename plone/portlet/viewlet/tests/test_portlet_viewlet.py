@@ -9,6 +9,8 @@ from plone.portlets.interfaces import IPortletRenderer
 
 from plone.app.portlets.storage import PortletAssignmentMapping
 
+from Products.Five.browser import BrowserView
+
 from plone.portlet.viewlet import portlet as module
 from plone.portlet.viewlet import excludeViewlet, excludeManager
 
@@ -51,7 +53,7 @@ class TestPortlet(TestCase):
     def testRenderer(self):
         context = self.folder
         request = self.folder.REQUEST
-        view = self.folder.restrictedTraverse('@@plone')
+        view = BrowserView(context, request)
         manager = getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         assignment = module.Assignment(manager_viewlet=u"plone.portalheader plone.logo")
 
@@ -67,7 +69,7 @@ class TestRenderer(TestCase):
     def renderer(self, context=None, request=None, view=None, manager=None, assignment=None):
         context = context or self.folder
         request = request or self.folder.REQUEST
-        view = view or self.folder.restrictedTraverse('@@plone')
+        view = BrowserView(context, request)
         manager = manager or getUtility(IPortletManager, name='plone.rightcolumn', context=self.portal)
         assignment = assignment or module.Assignment(manager_viewlet=u"plone.portalheader plone.logo")
 

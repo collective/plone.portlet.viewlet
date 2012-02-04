@@ -110,7 +110,7 @@ class EditForm(base.EditForm):
 
 def vocab(context):
     request = context.REQUEST
-    view = getMultiAdapter((context, context.REQUEST), Interface, 'plone')
+    view = BrowserView(context, request)
     values = []
     for manager_name, manager in getAdapters((context, request, view), IViewletManager):
         if manager_name not in MANAGER_BLACKLIST:
