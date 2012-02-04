@@ -10,6 +10,7 @@ from plone.portlets.interfaces import IPortletRenderer
 from plone.app.portlets.storage import PortletAssignmentMapping
 
 from Products.Five.browser import BrowserView
+from Products.Five import zcml
 
 from plone.portlet.viewlet import portlet as module
 from plone.portlet.viewlet import excludeViewlet, excludeManager
@@ -95,6 +96,21 @@ class TestRenderer(TestCase):
         vocab = factory(self.folder)
         self.failIf('plone.htmlhead plone.resourceregistries' in vocab)        
 
+    def test_vocabulary_includes_iviewview_viewlets(self):
+        zcml.load_string('''\
+<configure xmlns:browser="http://namespaces.zope.org/browser">
+<browser:viewlet
+    name="plone.dummyviewlet"
+    manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+    class="plone.portlet.viewlet.tests.base.DummyViewlet"
+    view="plone.app.layout.globals.interfaces.IViewView"
+    permission="zope2.View"
+    />
+</configure>''')
+
+        factory = getUtility(IVocabularyFactory, name='plone.portlet.viewlet.vocab')
+        vocab = factory(self.folder)
+        self.failUnless('plone.belowcontentbody plone.dummyviewlet' in vocab)
 
 def test_suite():
     from unittest import TestSuite, makeSuite

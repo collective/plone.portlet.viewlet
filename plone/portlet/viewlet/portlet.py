@@ -1,11 +1,12 @@
 from zope.component import queryMultiAdapter, getUtility, getMultiAdapter, getAdapters
 from zope.component.interfaces import IFactory
 
-from zope.interface import implements, Interface
+from zope.interface import implements, Interface, alsoProvides
 from zope.viewlet.interfaces import IViewlet, IViewletManager
 from plone.portlets.manager import PortletManager
 from plone.portlets.interfaces import IPortletRenderer, IPortletManager
 from Products.Five.browser import BrowserView
+from plone.app.layout.globals.interfaces import IViewView
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
@@ -74,7 +75,9 @@ class Renderer(base.Renderer):
         ## if not viewlet:
         ##     managerObj.update()
         ##    return managerObj.render()
-        viewletObj = getMultiAdapter((self.context, self.request, self.view, managerObj), IViewlet, viewlet)
+        viewletObj = queryMultiAdapter((self.context, self.request, self.view, managerObj), IViewlet, viewlet)
+        if not viewletObj:
+            return None
         viewletObj = viewletObj.__of__(self.context)
         viewletObj.update()
         return viewletObj.render()
@@ -111,6 +114,7 @@ class EditForm(base.EditForm):
 def vocab(context):
     request = context.REQUEST
     view = BrowserView(context, request)
+    alsoProvides(view, IViewView)
     values = []
     for manager_name, manager in getAdapters((context, request, view), IViewletManager):
         if manager_name not in MANAGER_BLACKLIST:

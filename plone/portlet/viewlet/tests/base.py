@@ -4,6 +4,9 @@ from Products.Five import fiveconfigure
 from Products.PloneTestCase import PloneTestCase as ptc
 from Products.PloneTestCase.layer import onsetup
 
+class DummyViewlet(object):
+    pass
+
 @onsetup
 def setup_package():
     fiveconfigure.debug_mode = True
