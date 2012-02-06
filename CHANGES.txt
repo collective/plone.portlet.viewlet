@@ -1,10 +1,11 @@
 Changelog
 =========
 
-0.4 - unreleased
+0.4 - 2012-02-06
 ----------------
 
-
+- Fix brown bag release.
+  [danjacka]
 
 0.3 - 2012-02-06
 ----------------
