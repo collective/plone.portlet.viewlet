@@ -44,7 +44,7 @@ class Assignment(base.Assignment):
     
     manager_viewlet = None
         
-    def __init__(self, manager_viewlet):
+    def __init__(self, manager_viewlet=None):
         self.manager_viewlet = manager_viewlet
         
     @property

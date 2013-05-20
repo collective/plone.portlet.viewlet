@@ -4,7 +4,7 @@ Changelog
 0.5 - unreleased
 ----------------
 
-
+ - Fix Generic Setup import [amleczko]
 
 0.4 - 2012-02-06
 ----------------
